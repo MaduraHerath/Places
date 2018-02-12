@@ -5,9 +5,9 @@
  */
 
 import React, { Component } from 'react';
-import Welcome from "./src/welcome/welcome";
-import Search from "./src/search/search";
+import Welcome from "./src/components/welcome/welcome";
 import { StackNavigator } from 'react-navigation';
+import Home from "./src/components/home/home";
 
 
 
@@ -28,8 +28,8 @@ const StackView = StackNavigator(  {
                 header: null
             },
         },
-        Search: {
-            screen: Search,
+        Home: {
+            screen: Home,
             navigationOptions: {
                 header: null
             }

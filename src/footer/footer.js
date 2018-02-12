@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Item, Input  , Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
+import Welcome from "../components/welcome/welcome";
 
 
 export default class TabFooter extends Component {
@@ -15,7 +16,7 @@ export default class TabFooter extends Component {
                         <Icon name="navigate"/>
                         <Text>Navigate</Text>
                     </Button>
-                    <Button>
+                    <Button onPress={() => this.props.navigation.navigate('Welcome')}>
                         <Icon name="settings"/>
                         <Text>Settings</Text>
                     </Button>
@@ -24,3 +25,4 @@ export default class TabFooter extends Component {
         );
     }
 }
+

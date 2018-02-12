@@ -1,0 +1,21 @@
+{
+    "busHalts": [
+    {
+        "title": "Gamini Halt",
+        "distance": "500m"
+    },
+
+    {
+        "title": "Ibbanwala Halt",
+        "distance": "550m"
+    },
+    {
+        "title": "Town Hall",
+        "distance": "600m"
+    },
+    {
+        "title": "Colombo Campus Halt",
+        "distance": "1km"
+    }
+]
+}

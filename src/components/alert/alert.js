@@ -8,7 +8,8 @@ import {
     Image,
 
 } from 'react-native';
-
+import AddAlert from "./add-alert";
+import { StackNavigator } from 'react-navigation';
 
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' +
@@ -18,14 +19,14 @@ const instructions = Platform.select({
 });
 
 
-export default class Welcome extends React.Component {
+export default class Alert extends React.Component {
 
     render() {
         return (
             <View style={styles.container}>
-                <Image source={require('../../src/images/buslogo.png')} />
+                <Image source={require('../../images/alarm.png')} />
                 <Text style={styles.welcome}>
-                    Welcome to Bus Tracker!
+                   No Alterts Found
                 </Text>
                 <Text style={styles.instructions}>
                     To get started, edit App.js
@@ -34,14 +35,30 @@ export default class Welcome extends React.Component {
                     {instructions}
                 </Text>
                 <Button style={styles.signup}
-                        title="Let's Get Start"
-                        onPress={() => this.props.navigation.navigate('Search')}
+                        title="Add Alert"
+                        onPress={() => this.props.navigation.navigate('AddAlert')}
                 />
             </View>
         );
     }
 }
-
+const StackView = StackNavigator(  {
+        Alert: {
+            screen: Alert,
+            navigationOptions: {
+                header: null
+            },
+        },
+        AddAlert: {
+            screen: AddAlert,
+            navigationOptions: {
+                header: null
+            }
+        },
+    },
+    {
+        initialRouteName: 'Alert',
+    });
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -58,12 +75,14 @@ const styles = StyleSheet.create({
     instructions: {
         textAlign: 'center',
         color: '#FAFAFA',
-        marginBottom: 5,
+        marginBottom: 10,
     },
     signup: {
-        marginTop:10,
-        paddingTop:5,
+        marginTop:20,
+        paddingTop:20,
         borderRadius:30,
+        backgroundColor:'#FAFAFA',
+        color:'#2196F3'
 
 
     }

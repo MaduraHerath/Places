@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Container, Header, Item, Input  , Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
-
-import BusRoute from '../bus-route/bus-route';
-import TabFooter from '../footer/footer';
+import { Provider } from 'react-redux';
+import BusRoute from '../../bus-route/bus-route';
+import TabFooter from '../../footer/footer';
+import store from '../../store/store'
 export default class Search extends Component {
     render() {
         return (
@@ -24,9 +25,11 @@ export default class Search extends Component {
                     </Button>
                 </Header>
                 <Content>
+                    <Provider store={store}>
                     <BusRoute></BusRoute>
+                    </Provider>
                 </Content>
-               <TabFooter />
+
             </Container>
         );
     }

@@ -1,29 +1,123 @@
+'use strict';
+
 import React, { Component } from 'react';
-import { Container, Header, Content, Card, CardItem, Text, Body, Button, Icon,} from 'native-base';
+import { Container, Header, Content, List, ListItem } from 'native-base';
+var {
+    StyleSheet,
+    ListView,
+    View,
+    Text,
+    ActivityIndicator
+} = require('react-native');
 
-export default class BusRoute extends Component {
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+
+import * as Actions from '../actions/action'; //Import your actions
+
+class BusRoute extends Component {
+    constructor(props) {
+        super(props);
+
+        var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.state = {
+            ds: ds
+        };
+    }
+
+    componentDidMount() {
+        this.props.getData(); //call our action
+    }
+
     render() {
+        if (this.props.loading) {
+            return (
+                <View style={styles.activityIndicatorContainer}>
+                    <ActivityIndicator
+                        animating={true}
+                        style={[{height: 80}]}
+                        size="small"
+                    />
+                </View>
+            );
+        } else {
+            return (
+
+                <View style={{flex:1, backgroundColor: '#F5F5F5', paddingTop:20}}>
+                    <ListItem itemDivider>
+                        <Text  style={styles.deviders}>Nearest Bus Halts</Text>
+                    </ListItem>
+                    <ListView enableEmptySections={true}
+                              dataSource={this.state.ds.cloneWithRows(this.props.data)}
+                              renderRow={this.renderRow.bind(this)}/>
+                </View>
+            );
+        }
+    }
+
+    renderRow(rowData, sectionID, rowID) {
         return (
+            <View style={styles.row}>
+                <Text style={styles.title}>
+                    {(parseInt(rowID) + 1)}{". "}{rowData.title}
+                </Text>
+                <Text style={styles.description}>
+                    {rowData.distance}
+                </Text>
+            </View>
 
-            <Card>
-                <CardItem header>
-                    <Text>138 | Bus Route</Text>
-                </CardItem>
-                <CardItem>
-                    <Body>
-                    <Text>
-                        EST
-                    </Text>
-                    </Body>
-                </CardItem>
-                <CardItem footer>
-                    <Button iconLeft red>
-                        <Icon name='map' />
-                        <Text>Show in Map</Text>
-                    </Button>
-                </CardItem>
-            </Card>
+        )
+    }
+};
 
-        );
+
+
+// The function takes data from the app current state,
+// and insert/links it into the props of our component.
+// This function makes Redux know that this component needs to be passed a piece of the state
+function mapStateToProps(state, props) {
+    return {
+        loading: state.dataReducer.loading,
+        data: state.dataReducer.data
     }
 }
+
+// Doing this merges our actions into the component’s props,
+// while wrapping them in dispatch() so that they immediately dispatch an Action.
+// Just by doing this, we will have access to the actions defined in out actions file (action/home.js)
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators(Actions, dispatch);
+}
+
+//Connect everything
+export default connect(mapStateToProps, mapDispatchToProps)(BusRoute);
+
+var styles = StyleSheet.create({
+    activityIndicatorContainer:{
+        backgroundColor: "#fff",
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1
+    },
+
+    row:{
+        borderBottomWidth: 1,
+        borderColor: "#ccc",
+        // height: 50,
+        padding: 10
+    },
+
+    title:{
+        fontSize: 15,
+        fontWeight: "600"
+    },
+
+    description:{
+        marginTop: 5,
+        fontSize: 14,
+    },
+    deviders:{
+        fontSize:18,
+        fontWeight:"600"
+    }
+});
